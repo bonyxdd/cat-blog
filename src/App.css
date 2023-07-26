@@ -27,6 +27,89 @@
 .App-link {
   color: #61dafb;
 }
+li {
+  list-style-type: none;
+}
+nav ul,
+.personalizedSec {
+  display: flex;
+  justify-content: space-around;
+  gap: 2rem;
+  align-items: center;
+}
+nav ul {
+  margin: 0;
+  padding: 0.5rem;
+  align-items: center;
+}
+nav {
+  background-color: #f8f9fa;
+}
+.formWrapper,
+.articlesWrapper {
+  display: flex;
+  justify-content: center;
+}
+input {
+  border-radius: 4px;
+  height: 2rem;
+  padding-inline: 1rem;
+  border: 1px solid var(--border-light, #dfdfdf);
+  background: var(--background-white, #fff);
+  color: #6c757d;
+}
+#createArticle,
+.articlesBody {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 50%;
+}
+.dialogMenuBcg {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.71);
+  left: 0%;
+  top: 4rem;
+}
+.dialogMenu form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+.dialogMenu {
+  width: 18rem;
+  box-shadow: 0px 16px 48px 0px rgba(0, 0, 0, 0.17);
+}
+.buttonWrap {
+  display: flex;
+  justify-content: end;
+}
+.dialogMenu h2 {
+  margin-top: 0;
+}
+.smallButton {
+  border-radius: 4px;
+  border: 1px solid var(--background-primary, #007bff);
+  background: var(--background-primary, #007bff);
+  color: #fff;
+  cursor: pointer;
+}
+form :nth-child(4) {
+  margin-bottom: 2rem;
+}
+.dialogMenu {
+  position: relative;
+  border-radius: 0.5rem;
+  z-index: 5;
+  background-color: #fff;
+  padding: 2rem 2rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
 
 @keyframes App-logo-spin {
   from {
