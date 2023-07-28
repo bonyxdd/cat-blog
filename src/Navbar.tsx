@@ -1,14 +1,12 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
 import { useAuth } from "./AuthContext";
 import { Login } from "./Login";
 
 export const Navbar = () => {
-  const [loggedInUsername, setLoggedInUsername] = useState("");
-  const { authKey, setAuthKey } = useAuth();
+  const { authKey, setAuthKey, userName, setUserName } = useAuth();
   const handleLoginSuccess = (authKey: string | null, username: string) => {
     setAuthKey(authKey);
-    setLoggedInUsername(username);
+    setUserName(username);
   };
   return (
     <nav>
@@ -21,13 +19,13 @@ export const Navbar = () => {
         {authKey ? (
           <div className="personalizedSec">
             <li>
-              <Link to="/my-articles">My Articles</Link>
+              <Link to="/myArticles">My Articles</Link>
             </li>
             <li>
               <Link to="/create">Create Article</Link>
             </li>
             <li>
-              <Link to="/profile">{loggedInUsername}</Link>
+              <Link to="/profile">{userName}</Link>
             </li>
           </div>
         ) : (

@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { baseUrl, apiKey } from "./App";
 
 const createArticle = async (
@@ -30,6 +31,7 @@ const createArticle = async (
   }
 };
 const ArticleCreationForm = ({ authKey }: { authKey: string | null }) => {
+  const navigate = useNavigate();
   const [formValues, setFormValues] = useState({
     title: "",
     perex: "",
@@ -63,6 +65,7 @@ const ArticleCreationForm = ({ authKey }: { authKey: string | null }) => {
         setIsArticleCreated(true);
         setFormValues({ title: "", perex: "", content: "" });
         setErrorMessage("");
+        navigate("/");
       } catch (error) {
         setIsArticleCreated(false);
         setErrorMessage("Article was not created");

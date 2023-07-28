@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 
 export default async function deleteArticle(
   articleId: string,
@@ -7,7 +7,7 @@ export default async function deleteArticle(
   authKey: string
 ) {
   try {
-    const response: AxiosResponse = await axios.delete(
+    await axios.delete(
       baseUrl + `/articles/${articleId}`,
       {
         headers: {
