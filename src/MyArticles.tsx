@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import { useState, useEffect } from "react";
-import { baseUrl, apiKey } from "./App";
+import { baseUrl } from "./App";
 import deleteArticle from "./DeleteArticle";
 import { useAuth } from "./AuthContext";
 import { Link } from "react-router-dom";
@@ -12,19 +12,22 @@ interface Article {
   author: string;
 }
 const MyArticles = ({ authKey }: { authKey: string | null }) => {
-  const { userName } = useAuth();
+    const { userName, apiKey } = useAuth();
   useEffect(() => {
-    fetchArticles(apiKey, authKey);
-  }, []);
+    if (apiKey !== null) {
+        fetchArticles(apiKey);
+      } else {
+        console.error("Please Log In");
+      }
+  }, [authKey]);
   const [articles, setArticles] = useState<Article[]>([]);
-  const fetchArticles = async (apiKey: string, authKey: string | null) => {
+  const fetchArticles = async (apiKey: string) => {
     try {
       const response: AxiosResponse<{ items: Article[] }> = await axios.get(
         baseUrl + "/articles",
         {
           headers: {
             "X-API-KEY": apiKey,
-            Authorization: authKey,
           },
         }
       );
@@ -40,7 +43,7 @@ const MyArticles = ({ authKey }: { authKey: string | null }) => {
 
   const handleDelete = async (articleId: string) => {
     try {
-      if (authKey !== null) {
+      if (authKey !== null && apiKey !== null) {
         await deleteArticle(articleId, baseUrl, apiKey, authKey);
         setArticles((prevArticles) =>
           prevArticles.filter((article) => article.articleId !== articleId)

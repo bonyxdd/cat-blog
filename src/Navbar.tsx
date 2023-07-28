@@ -3,10 +3,11 @@ import { useAuth } from "./AuthContext";
 import { Login } from "./Login";
 
 export const Navbar = () => {
-  const { authKey, setAuthKey, userName, setUserName } = useAuth();
-  const handleLoginSuccess = (authKey: string | null, username: string) => {
+  const { authKey, setAuthKey, userName, setUserName, apiKey, setApiKey } = useAuth();
+  const handleLoginSuccess = (authKey: string | null, username: string, apiKey:string) => {
     setAuthKey(authKey);
     setUserName(username);
+    setApiKey(apiKey);
   };
   return (
     <nav>
@@ -25,7 +26,7 @@ export const Navbar = () => {
               <Link to="/create">Create Article</Link>
             </li>
             <li>
-              <Link to="/profile">{userName}</Link>
+              <Link to="/profile">{userName} ({apiKey})</Link>
             </li>
           </div>
         ) : (

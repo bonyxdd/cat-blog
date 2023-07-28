@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import axios, { AxiosResponse } from "axios";
 import { Link } from "react-router-dom";
-import { baseUrl, apiKey } from "./App";
+import { useAuth } from "./AuthContext";
+import { baseUrl } from "./App";
 
 export interface Article {
   articleId: string;
@@ -14,16 +15,20 @@ export interface Article {
 
 const DisplayAllArticles = ({ authKey }: { authKey: string | null }) => {
   const [articles, setArticles] = useState<Article[]>([]);
+  const { apiKey } = useAuth();
 
   useEffect(() => {
-    fetchArticles(apiKey);
+    if (apiKey !== null) {
+      fetchArticles(apiKey);
+    } else {
+      console.error("Please Log In");
+    }
   }, [authKey]);
 
   function formatDate(dateTimeString: string): string {
     const date = new Date(dateTimeString);
     return date.toISOString().slice(0, 10);
   }
-
   const fetchArticles = async (apiKey: string) => {
     try {
       const response: AxiosResponse<{ items: Article[] }> = await axios.get(

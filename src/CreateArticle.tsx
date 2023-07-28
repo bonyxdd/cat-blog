@@ -1,7 +1,8 @@
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { baseUrl, apiKey } from "./App";
+import { baseUrl } from "./App";
+import { useAuth } from "./AuthContext";
 
 const createArticle = async (
   title: string,
@@ -31,6 +32,7 @@ const createArticle = async (
   }
 };
 const ArticleCreationForm = ({ authKey }: { authKey: string | null }) => {
+  const { apiKey } = useAuth();
   const navigate = useNavigate();
   const [formValues, setFormValues] = useState({
     title: "",
@@ -59,7 +61,7 @@ const ArticleCreationForm = ({ authKey }: { authKey: string | null }) => {
     } else if (!title || !perex || !content) {
       setErrorMessage("Please fill in all the fields");
       setIsArticleCreated(false);
-    } else {
+    } else if(apiKey !== null) {
       try {
         await createArticle(title, perex, content, baseUrl, apiKey, authKey);
         setIsArticleCreated(true);
@@ -70,6 +72,8 @@ const ArticleCreationForm = ({ authKey }: { authKey: string | null }) => {
         setIsArticleCreated(false);
         setErrorMessage("Article was not created");
       }
+    } else {
+      console.error("Please Log In");
     }
   };
 

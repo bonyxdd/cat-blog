@@ -1,14 +1,20 @@
 import { useEffect, useState } from "react";
 import axios, { AxiosResponse } from "axios";
 import { useParams } from "react-router-dom";
-import { baseUrl, apiKey } from "./App";
+import { baseUrl } from "./App";
 import { Article } from "./DisplayAllArticles";
+import { useAuth } from "./AuthContext";
 
 const DisplaySingleArticle = () => {
   const [article, setArticle] = useState<Article | null>(null);
+  const { apiKey } = useAuth();
   const { articleId } = useParams();
   useEffect(() => {
-    fetchArticle(apiKey);
+    if (apiKey !== null) {
+      fetchArticle(apiKey);
+    } else {
+      console.error("Please Log In");
+    }
   }, []);
 
   function formatDate(dateTimeString: string): string {
