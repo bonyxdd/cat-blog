@@ -15,7 +15,7 @@ export interface Article {
 
 const DisplayAllArticles = ({ authKey }: { authKey: string | null }) => {
   const [articles, setArticles] = useState<Article[]>([]);
-  const { apiKey } = useAuth();
+  const { apiKey, userName } = useAuth();
 
   useEffect(() => {
     if (apiKey !== null) {
@@ -60,13 +60,14 @@ const DisplayAllArticles = ({ authKey }: { authKey: string | null }) => {
           <h1>Recent Articles</h1>
           {articles.length > 0 ? (
             articles.map((article) => (
-              <div key={article.articleId}>
+              <div className="articleBody" key={article.articleId}>
                 <h2>{article.title}</h2>
-                <div className="date">{formatDate(article.createdAt)}</div>
+                <div className="date">{ userName} | {formatDate(article.createdAt)}</div>
                 <p>{article.perex}</p>
-                <p>
-                  <Link to={`/${article.articleId}`}>Read more...</Link>
-                </p>
+                <div className="bottomArticleBody">
+                  <Link to={`/${article.articleId}`}>Read whole article</Link>
+                  <p># Comments</p>
+                  </div>
               </div>
             ))
           ) : (

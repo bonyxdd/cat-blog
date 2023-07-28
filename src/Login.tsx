@@ -25,7 +25,6 @@ export const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
 
   const handleLoginSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    console.log(apiKey);
     try {
       const response: AxiosResponse = await axios.post(
         baseUrl + "/login",

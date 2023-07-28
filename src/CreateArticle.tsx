@@ -61,7 +61,7 @@ const ArticleCreationForm = ({ authKey }: { authKey: string | null }) => {
     } else if (!title || !perex || !content) {
       setErrorMessage("Please fill in all the fields");
       setIsArticleCreated(false);
-    } else if(apiKey !== null) {
+    } else if (apiKey !== null) {
       try {
         await createArticle(title, perex, content, baseUrl, apiKey, authKey);
         setIsArticleCreated(true);
@@ -79,37 +79,47 @@ const ArticleCreationForm = ({ authKey }: { authKey: string | null }) => {
 
   return (
     <div className="formWrapper">
-      <form id="createArticle" onSubmit={handleSubmit}>
-        <label htmlFor="title">Title</label>
-        <input
-          type="text"
-          name="title"
-          id="title"
-          value={formValues.title}
-          onChange={handleChange}
-        />
-        <label htmlFor="perex">Perex</label>
-        <textarea
-          name="perex"
-          id="perex"
-          value={formValues.perex}
-          onChange={handleChange}
-          cols={30}
-          rows={5}
-        />
-        <label htmlFor="content">Content</label>
-        <textarea
-          name="content"
-          id="content"
-          value={formValues.content}
-          onChange={handleChange}
-          cols={30}
-          rows={20}
-        />
-        <button type="submit">Create Article</button>
-        {isArticleCreated && <p>Article Created</p>}
-        {errorMessage && <p>{errorMessage}</p>}
-      </form>
+      <div className="articlesBody">
+        <form id="createArticle" onSubmit={handleSubmit}>
+        <div className="createWrap">
+          <h1>Create new article</h1>
+          <button className="smallButton" type="submit">
+            Publish Article
+          </button>
+        </div>
+          <label htmlFor="title">Title</label>
+          <input
+            type="text"
+            name="title"
+            id="title"
+            placeholder="My First Article"
+            value={formValues.title}
+            onChange={handleChange}
+          />
+          <label htmlFor="perex">Perex</label>
+          <textarea
+            name="perex"
+            id="perex"
+            placeholder="Your Catchy Description"
+            value={formValues.perex}
+            onChange={handleChange}
+            cols={30}
+            rows={4}
+          />
+          <label htmlFor="content">Content</label>
+          <textarea
+            name="content"
+            id="content"
+            placeholder="Article Content"
+            value={formValues.content}
+            onChange={handleChange}
+            cols={30}
+            rows={20}
+          />
+          {isArticleCreated && <p>Article Created</p>}
+          {errorMessage && <p>{errorMessage}</p>}
+        </form>
+      </div>
     </div>
   );
 };

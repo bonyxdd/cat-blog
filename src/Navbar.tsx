@@ -13,7 +13,7 @@ export const Navbar = () => {
     <nav>
       <ul>
         <li>
-          <Link to="/">
+          <Link id="logo"to="/">
             <img src={require("./cat-logo.png")} alt="Main Page" />
           </Link>
         </li>
@@ -23,10 +23,10 @@ export const Navbar = () => {
               <Link to="/myArticles">My Articles</Link>
             </li>
             <li>
-              <Link to="/create">Create Article</Link>
+              <Link id="create"to="/create">Create Article</Link>
             </li>
             <li>
-              <Link to="/profile">{userName} ({apiKey})</Link>
+              {userName} ({apiKey})
             </li>
           </div>
         ) : (

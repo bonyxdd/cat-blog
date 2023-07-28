@@ -7,7 +7,7 @@ import { useAuth } from "./AuthContext";
 
 const DisplaySingleArticle = () => {
   const [article, setArticle] = useState<Article | null>(null);
-  const { apiKey } = useAuth();
+  const { apiKey, userName } = useAuth();
   const { articleId } = useParams();
   useEffect(() => {
     if (apiKey !== null) {
@@ -34,7 +34,6 @@ const DisplaySingleArticle = () => {
       );
 
       if (response.status === 200) {
-        console.log(response.data);
         setArticle(response.data);
       }
     } catch (error: any) {
@@ -47,13 +46,16 @@ const DisplaySingleArticle = () => {
       <div className="articlesBody">
         {article ? (
           <div key={articleId}>
-            <h2>{article.title}</h2>
-            <div className="date">{formatDate(article.createdAt)}</div>
+            <h1>{article.title}</h1>
+            <div className="date">{userName} | {formatDate(article.createdAt)}</div>
             <p>{article.content}</p>
           </div>
         ) : (
           <p>Loading...</p>
         )}
+      <div className="commentsWrapper">
+        <h2>Comments (#)</h2>
+      </div>
       </div>
     </div>
   );
