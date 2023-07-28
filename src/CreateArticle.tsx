@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { baseUrl } from "./App";
 import { useAuth } from "./AuthContext";
@@ -10,16 +10,18 @@ const createArticle = async (
   content: string,
   baseUrl: string,
   apiKey: string,
-  authKey: string | null
+  authKey: string | null,
+  imageId: string
 ) => {
   try {
-    await axios.post(
-      baseUrl + "/articles",
-      {
-        title,
-        perex,
-        content,
-      },
+    const requestData = {
+      title,
+      perex,
+      content,
+      imageId,
+    };
+    const response = await axios.post(
+      baseUrl + "/articles", requestData,
       {
         headers: {
           "X-API-KEY": apiKey,
@@ -31,9 +33,31 @@ const createArticle = async (
     console.error("Error:", error.response.data);
   }
 };
+
+const uploadImage = async (imageFile: File, apiKey: string, authKey:string) => {
+  try {
+    const formData = new FormData();
+    formData.append("image", imageFile);
+
+    const response = await axios.post(baseUrl + "/images",
+      formData, {
+      headers: {
+          "X-API-KEY": apiKey,
+          Authorization: authKey,
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return response.data;
+  } catch (error: any) {
+    console.error("Error uploading image:", error.response.data)
+    throw error;
+  }
+}
 const ArticleCreationForm = ({ authKey }: { authKey: string | null }) => {
   const { apiKey } = useAuth();
   const navigate = useNavigate();
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null);
   const [formValues, setFormValues] = useState({
     title: "",
     perex: "",
@@ -63,7 +87,13 @@ const ArticleCreationForm = ({ authKey }: { authKey: string | null }) => {
       setIsArticleCreated(false);
     } else if (apiKey !== null) {
       try {
-        await createArticle(title, perex, content, baseUrl, apiKey, authKey);
+        if (imageFile) {
+          const uploadedImageInfo = await uploadImage(imageFile, apiKey, authKey);
+          console.log(uploadedImageInfo[0].imageId);
+          await createArticle(title, perex, content, baseUrl, apiKey, authKey, uploadedImageInfo[0].imageId);
+        } else {
+          setErrorMessage("Please upload an image");
+        }
         setIsArticleCreated(true);
         setFormValues({ title: "", perex: "", content: "" });
         setErrorMessage("");
@@ -76,6 +106,18 @@ const ArticleCreationForm = ({ authKey }: { authKey: string | null }) => {
       console.error("Please Log In");
     }
   };
+
+  const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0] || null;
+    if (file) {
+      setImageFile(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreviewUrl(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  }
 
   return (
     <div className="formWrapper">
@@ -96,6 +138,12 @@ const ArticleCreationForm = ({ authKey }: { authKey: string | null }) => {
             value={formValues.title}
             onChange={handleChange}
           />
+          <label htmlFor="image">Featured image</label>
+          <form className="smallButton fileInput">
+            <p>Upload an Image</p>
+            <input className="fileButton" type="file" name="image" accept="image/*"id="image"onChange={handleImageChange} />
+          </form>
+          {imagePreviewUrl && <img className="imgPreview" src={imagePreviewUrl} alt="Uploaded Preview" />}
           <label htmlFor="perex">Perex</label>
           <textarea
             name="perex"

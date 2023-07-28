@@ -11,6 +11,7 @@ export interface Article {
   content: string;
   createdAt: string;
   lastUpdatedAt: string;
+  imageId: string;
 }
 
 const DisplayAllArticles = ({ authKey }: { authKey: string | null }) => {
@@ -46,6 +47,7 @@ const DisplayAllArticles = ({ authKey }: { authKey: string | null }) => {
           const bDate = new Date(b.createdAt).getTime();
           return bDate - aDate;
         });
+        console.log(response.data.items);
         setArticles(response.data.items);
       }
     } catch (error: any) {
@@ -60,6 +62,8 @@ const DisplayAllArticles = ({ authKey }: { authKey: string | null }) => {
           <h1>Recent Articles</h1>
           {articles.length > 0 ? (
             articles.map((article) => (
+              <div className="imageArticleWrap" key={article.articleId}>
+                {/*<img src={`${baseUrl}/images/${article.imageId}`} alt="" />*/}
               <div className="articleBody" key={article.articleId}>
                 <h2>{article.title}</h2>
                 <div className="date">{ userName} | {formatDate(article.createdAt)}</div>
@@ -68,7 +72,8 @@ const DisplayAllArticles = ({ authKey }: { authKey: string | null }) => {
                   <Link to={`/${article.articleId}`}>Read whole article</Link>
                   <p># Comments</p>
                   </div>
-              </div>
+                </div>
+                </div>
             ))
           ) : (
             <p>No articles available.</p>

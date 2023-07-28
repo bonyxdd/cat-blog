@@ -40,7 +40,7 @@ nav {
   justify-content: center;
   padding-top: 2rem;
 }
-input {
+input[type="text"], input[type="password"] {
   border-radius: 4px;
   height: 2rem;
   padding-inline: 1rem;
@@ -86,6 +86,7 @@ textarea {
   background-color: rgba(0, 0, 0, 0.71);
   left: 0%;
   top: 4rem;
+  z-index: 1;
 }
 .dialogMenu form {
   display: flex;
@@ -102,6 +103,10 @@ textarea {
 }
 .dialogMenu h2 {
   margin-top: 0;
+}
+.apikey{
+  font-size: 0.9rem;
+  color: #007bff;
 }
 .smallButton {
   border-radius: 4px;
@@ -164,4 +169,32 @@ td {
 th {
   text-align: start;
   padding: 0.2rem 1rem;
+}
+.fileButton{
+opacity: 0;
+width: 100%;
+height: 100%;
+cursor: pointer;
+font-size: 0rem;
+}
+.fileInput{
+  position: relative;
+  display: flex;
+align-items: center;
+justify-content: center;
+width: 7rem;
+background-color: #6C757D;
+border-color: #6C757D;
+}
+.fileInput p{
+  position: absolute;
+  margin: 0;
+  font-size: 0.9rem;
+}
+.imgPreview{
+  height: auto;
+width: 8rem;
+}
+.imageArticleWrap{
+  display: flex;
 }

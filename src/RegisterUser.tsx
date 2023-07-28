@@ -2,10 +2,6 @@ import { useState } from "react";
 import { baseUrl, temporaryApiKey } from "./App";
 import axios, { AxiosResponse } from "axios";
 
-interface LoginProps {
-  onLoginSuccess: (authKey: string | null, username: string) => void;
-}
-
 export const Register = () => {
   const [name, setUsername] = useState("");
   const [apiKey, setApiKey] = useState("");
@@ -64,8 +60,10 @@ export const Register = () => {
           onChange={(event) => setPassword(event.target.value)}
         />
         <p>
-          Please save your Api-Key: <br />
+          Please save your Api-Key:
+          <p className="apikey">
           {apiKey}
+          </p>
         </p>
         <div className="buttonWrap">
           <input className="smallButton" type="submit" value="Register" />
