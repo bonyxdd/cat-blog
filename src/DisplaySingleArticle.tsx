@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { baseUrl } from "./App";
 import { Article } from "./DisplayAllArticles";
 import { useAuth } from "./AuthContext";
+import ReactMarkdown from 'react-markdown';
 
 const DisplaySingleArticle = () => {
   const [article, setArticle] = useState<Article | null>(null);
@@ -32,7 +33,6 @@ const DisplaySingleArticle = () => {
           },
         }
       );
-
       if (response.status === 200) {
         setArticle(response.data);
       }
@@ -48,13 +48,13 @@ const DisplaySingleArticle = () => {
           <div key={articleId}>
             <h1>{article.title}</h1>
             <div className="date">{userName} | {formatDate(article.createdAt)}</div>
-            <p>{article.content}</p>
+            <ReactMarkdown>{article.content}</ReactMarkdown>
           </div>
         ) : (
           <p>Loading...</p>
         )}
       <div className="commentsWrapper">
-        <h2>Comments (#)</h2>
+        <h2>Comments ({article?.comments.length})</h2>
       </div>
       </div>
     </div>

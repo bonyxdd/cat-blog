@@ -3,6 +3,9 @@ import { ChangeEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { baseUrl } from "./App";
 import { useAuth } from "./AuthContext";
+import ReactMarkdown from '@uiw/react-md-editor';
+import MarkdownEditor from 'react-markdown-editor-lite';
+import 'react-markdown-editor-lite/lib/index.css';
 
 const createArticle = async (
   title: string,
@@ -58,6 +61,7 @@ const ArticleCreationForm = ({ authKey }: { authKey: string | null }) => {
   const navigate = useNavigate();
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null);
+  const [markdownContent, setMarkdownContent] = useState<string>("");
   const [formValues, setFormValues] = useState({
     title: "",
     perex: "",
@@ -77,25 +81,25 @@ const ArticleCreationForm = ({ authKey }: { authKey: string | null }) => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    const { title, perex, content } = formValues;
+    const { title, perex } = formValues;
+    const content = markdownContent;
+
 
     if (!authKey) {
       setErrorMessage("Please Log In");
       setIsArticleCreated(false);
-    } else if (!title || !perex || !content) {
+    } else if (!title || !perex || !content || !imageFile) {
       setErrorMessage("Please fill in all the fields");
       setIsArticleCreated(false);
     } else if (apiKey !== null) {
       try {
-        if (imageFile) {
           const uploadedImageInfo = await uploadImage(imageFile, apiKey, authKey);
           console.log(uploadedImageInfo[0].imageId);
+          console.log(content);
           await createArticle(title, perex, content, baseUrl, apiKey, authKey, uploadedImageInfo[0].imageId);
-        } else {
-          setErrorMessage("Please upload an image");
-        }
         setIsArticleCreated(true);
         setFormValues({ title: "", perex: "", content: "" });
+        setMarkdownContent("");
         setErrorMessage("");
         navigate("/");
       } catch (error) {
@@ -155,14 +159,14 @@ const ArticleCreationForm = ({ authKey }: { authKey: string | null }) => {
             rows={4}
           />
           <label htmlFor="content">Content</label>
-          <textarea
+          <MarkdownEditor
             name="content"
             id="content"
             placeholder="Article Content"
-            value={formValues.content}
-            onChange={handleChange}
-            cols={30}
-            rows={20}
+            value={markdownContent}
+            onChange={(data) => setMarkdownContent(data.text)}
+            style={{ height: '30rem' }}
+            renderHTML={(text) => <ReactMarkdown>{text}</ReactMarkdown>}
           />
           {isArticleCreated && <p>Article Created</p>}
           {errorMessage && <p>{errorMessage}</p>}

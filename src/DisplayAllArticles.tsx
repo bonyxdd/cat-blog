@@ -12,6 +12,7 @@ export interface Article {
   createdAt: string;
   lastUpdatedAt: string;
   imageId: string;
+  comments: string;
 }
 
 const DisplayAllArticles = ({ authKey }: { authKey: string | null }) => {
@@ -40,14 +41,12 @@ const DisplayAllArticles = ({ authKey }: { authKey: string | null }) => {
           },
         }
       );
-
       if (response.status === 200) {
         response.data.items.sort((a, b) => {
           const aDate = new Date(a.createdAt).getTime();
           const bDate = new Date(b.createdAt).getTime();
           return bDate - aDate;
         });
-        console.log(response.data.items);
         setArticles(response.data.items);
       }
     } catch (error: any) {
