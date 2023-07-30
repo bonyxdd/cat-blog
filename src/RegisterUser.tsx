@@ -27,8 +27,6 @@ export const Register = () => {
         const RegisterData = response.data;
         const authKey = RegisterData.access_token;
         setApiKey(RegisterData.apiKey);
-        console.log(response);
-        console.log(apiKey);
         return authKey;
       }
     } catch (error) {

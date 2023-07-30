@@ -13,17 +13,17 @@ export const Navbar = () => {
     <nav>
       <ul>
         <li>
-          <Link id="logo"to="/">
+          <Link id="logo"to="/cat-blog">
             <img src={require("./cat-logo.png")} alt="Main Page" />
           </Link>
         </li>
         {authKey ? (
           <div className="personalizedSec">
             <li>
-              <Link to="/myArticles">My Articles</Link>
+              <Link to="/cat-blog/myArticles">My Articles</Link>
             </li>
             <li>
-              <Link id="create"to="/create">Create Article</Link>
+              <Link id="create"to="/cat-blog/create">Create Article</Link>
             </li>
             <li>
               {userName} ({apiKey})

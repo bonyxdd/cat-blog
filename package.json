@@ -1,5 +1,6 @@
 {
   "name": "cat-blog",
+  "homepage": "https://gpointinteractive.com/cat-blog",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

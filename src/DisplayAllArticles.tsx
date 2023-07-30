@@ -68,7 +68,7 @@ const DisplayAllArticles = ({ authKey }: { authKey: string | null }) => {
                 <div className="date">{ userName} | {formatDate(article.createdAt)}</div>
                 <p>{article.perex}</p>
                 <div className="bottomArticleBody">
-                  <Link to={`/${article.articleId}`}>Read whole article</Link>
+                  <Link to={`/cat-blog/article/${article.articleId}`}>Read whole article</Link>
                   <p># Comments</p>
                   </div>
                 </div>

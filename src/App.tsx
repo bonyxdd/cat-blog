@@ -19,10 +19,10 @@ const App = () => {
     <Router>
       <Navbar />
       <Routes>
-        <Route path="/" element={<DisplayAllArticles authKey={authKey} />} />
-        <Route path="/:articleId" element={<DisplaySingleArticle />} />
-        <Route path="/create" element={<ArticleCreationForm authKey={authKey} />}/>
-        <Route path="/myArticles" element={<MyArticles authKey={authKey} />} />
+        <Route path="/cat-blog" element={<DisplayAllArticles authKey={authKey} />} />
+        <Route path="/cat-blog/article/:articleId" element={<DisplaySingleArticle />} />
+        <Route path="/cat-blog/create" element={<ArticleCreationForm authKey={authKey} />}/>
+        <Route path="/cat-blog/myArticles" element={<MyArticles authKey={authKey} />} />
       </Routes>
     </Router>
   );

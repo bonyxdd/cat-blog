@@ -63,7 +63,7 @@ const MyArticles = ({ authKey }: { authKey: string | null }) => {
           <div className="myArticleWrap">
             <h1>My Articles</h1>
             <div className="smallButton">
-              <Link to="/create">Create Article</Link>
+              <Link to="/cat-blog/create">Create Article</Link>
             </div>
           </div>
 
@@ -82,7 +82,7 @@ const MyArticles = ({ authKey }: { authKey: string | null }) => {
                 articles.map((article) => (
                   <tr key={article.articleId}>
                     <td>
-                      <Link to={`/${article.articleId}`}>
+                      <Link to={`/cat-blog/article/${article.articleId}`}>
                         {article.title.substring(0, 30) + "..."}
                       </Link>
                     </td>

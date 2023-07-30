@@ -67,7 +67,6 @@ const ArticleCreationForm = ({ authKey }: { authKey: string | null }) => {
     perex: "",
     content: "",
   });
-  const [isArticleCreated, setIsArticleCreated] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -87,23 +86,17 @@ const ArticleCreationForm = ({ authKey }: { authKey: string | null }) => {
 
     if (!authKey) {
       setErrorMessage("Please Log In");
-      setIsArticleCreated(false);
     } else if (!title || !perex || !content || !imageFile) {
       setErrorMessage("Please fill in all the fields");
-      setIsArticleCreated(false);
     } else if (apiKey !== null) {
       try {
           const uploadedImageInfo = await uploadImage(imageFile, apiKey, authKey);
-          console.log(uploadedImageInfo[0].imageId);
-          console.log(content);
           await createArticle(title, perex, content, baseUrl, apiKey, authKey, uploadedImageInfo[0].imageId);
-        setIsArticleCreated(true);
         setFormValues({ title: "", perex: "", content: "" });
         setMarkdownContent("");
         setErrorMessage("");
-        navigate("/");
+        navigate("/cat-blog");
       } catch (error) {
-        setIsArticleCreated(false);
         setErrorMessage("Article was not created");
       }
     } else {
@@ -131,7 +124,8 @@ const ArticleCreationForm = ({ authKey }: { authKey: string | null }) => {
           <h1>Create new article</h1>
           <button className="smallButton" type="submit">
             Publish Article
-          </button>
+            </button>
+            {errorMessage && <p>{errorMessage}</p>}
         </div>
           <label htmlFor="title">Title</label>
           <input
@@ -168,8 +162,6 @@ const ArticleCreationForm = ({ authKey }: { authKey: string | null }) => {
             style={{ height: '30rem' }}
             renderHTML={(text) => <ReactMarkdown>{text}</ReactMarkdown>}
           />
-          {isArticleCreated && <p>Article Created</p>}
-          {errorMessage && <p>{errorMessage}</p>}
         </form>
       </div>
     </div>
